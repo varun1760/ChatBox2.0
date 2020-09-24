@@ -145,7 +145,8 @@ public class Client extends JFrame {
         // adding send button
         send = new JButton("Send");
         send.setBounds(280,15,65,30);
-        send.setBackground(new Color(7,95,75));
+        send.setBackground(new Color(200,120,255));
+        send.setForeground(new Color(7,95,75));
         send.addActionListener(e -> {
             String message = text.getText();
 //            chatArea.setText(chatArea.getText()+"\n\t\t"+message); //get text from chat area(all previous)
@@ -180,9 +181,10 @@ public class Client extends JFrame {
 
     private void backUpFile(String message) {
         try {
-            FileWriter fileWriter = new FileWriter("backup.txt");
-            PrintWriter printWriter = new PrintWriter(fileWriter,true);
-            printWriter.println("SpiderMan: "+message);
+            FileWriter fileWriter = new FileWriter("backup.txt",true);
+            PrintWriter printWriter = new PrintWriter(new BufferedWriter(fileWriter));
+            printWriter.println(message);
+            printWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -192,7 +194,8 @@ public class Client extends JFrame {
         p3.setLayout(new BoxLayout(p3,BoxLayout.Y_AXIS));
 
         JLabel label1 = new JLabel("<html><p style = \"width : 150px\">" + message + "</p></html>");
-        label1.setBackground(new Color(37,211,102));
+        label1.setBackground(new Color(200,120,255));
+        label1.setForeground(new Color(7,95,75));
         label1.setFont(new Font("SAN_SERIF",Font.PLAIN,18));
         label1.setOpaque(true);
         label1.setBorder(new EmptyBorder(15,15,15,70));
@@ -208,9 +211,9 @@ public class Client extends JFrame {
     }
 
     public static void main(String[] args) {
-        Client server = new Client();
-        server.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // close the program on exit
-        server.setVisible(true);    // to make everything inside frame visible
+        Client client = new Client();
+        client.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // close the program on exit
+        client.setVisible(true);    // to make everything inside frame visible
 
         String msgIn;
         try {
