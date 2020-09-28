@@ -86,7 +86,7 @@ public class Client extends JFrame {
                 status.setText("Active Now");
             }
         });
-        timer.setInitialDelay(2000);
+        timer.setInitialDelay(500);
 
         // building video call label using method addMyIcon
         addMyIcon("icons/video.png",30,30);
@@ -105,13 +105,14 @@ public class Client extends JFrame {
 
         // building Chat Area
         chatArea = new JPanel();
-        chatArea.setBounds(5,65,340,350);
-//        chatArea.setBackground(Color.WHITE);
-//        chatArea.setFont(new Font("SAN_SERIF",Font.PLAIN,18));
-//        chatArea.setEditable(false);
-//        chatArea.setLineWrap(true);
-//        chatArea.setWrapStyleWord(true);
-        add(chatArea);
+        chatArea.setBounds(5, 65, 340, 350);
+        JScrollPane scrollPane = new JScrollPane(chatArea);
+        scrollPane.setBounds(5, 65, 340, 350);
+
+        // auto scroll to bottom
+        // Credit Source code: https://tips4java.wordpress.com/2013/03/03/smart-scrolling/
+        new SmartScroller(scrollPane, SmartScroller.VERTICAL, SmartScroller.END);   // calling SmartScroller class
+        add(scrollPane);
 
         // building another panel at bottom
         panel = new JPanel();
@@ -148,7 +149,7 @@ public class Client extends JFrame {
         send.setBackground(new Color(200,120,255));
         send.setForeground(new Color(7,95,75));
         send.addActionListener(e -> {
-            String message = text.getText();
+            String message = "IRONMAN: " + text.getText();
 //            chatArea.setText(chatArea.getText()+"\n\t\t"+message); //get text from chat area(all previous)
             // then add new message from textField with new line
             // then set again into chat area
@@ -160,6 +161,7 @@ public class Client extends JFrame {
             vertical.add(right);
             vertical.add(Box.createVerticalStrut(10));
             chatArea.add(vertical, BorderLayout.PAGE_START);
+            chatArea.revalidate();  //  repaints
             try {
                 outputStream.writeUTF(message);
             } catch (IOException ioException) {
